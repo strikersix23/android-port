@@ -3,6 +3,8 @@ sudo: false
 notifications:
   email: false
 
+script: ./CI/travis.sh
+
 android:
   components:
     - tools
