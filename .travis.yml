@@ -1,0 +1,10 @@
+language: android
+sudo: false
+notifications:
+  email: false
+
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
