@@ -11,7 +11,7 @@ fi
 
 mkdir -p toolchain
 
-unzip downloads/ndk.zip -d toolchain/
+unzip -q downloads/ndk.zip -d toolchain/
 mv toolchain/android-ndk-* toolchain/ndk/
 
 pushd toolchain
