@@ -39,7 +39,13 @@
             android:name="ui.activity.GameActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.AppCompat.FullScreen" />
+            android:theme="@style/Theme.AppCompat.FullScreen">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="ui.activity.ConfigureControls"
             android:configChanges="keyboardHidden|orientation"

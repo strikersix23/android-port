@@ -34,7 +34,7 @@ set(GL4ES_HASH SHA256=fc75caec65cffdb8d434e3a3dc9eea3dc4081661c2751354025d528b3b
 
 set(OSG_TAG android-support)
 
-set(OPENMW_TAG android)
+set(OPENMW_TAG android-gles)
 
 # End of configurable options
 
@@ -259,23 +259,6 @@ ExternalProject_Add(bullet
 	INSTALL_COMMAND $(MAKE) install
 )
 
-ExternalProject_Add(gl4es
-	URL https://github.com/ptitSeb/gl4es/archive/${GL4ES_VERSION}.tar.gz
-	URL_HASH ${GL4ES_HASH}
-	DOWNLOAD_DIR ${download_dir}
-
-	PATCH_COMMAND patch -d <SOURCE_DIR> -p1 -t -N < ${CMAKE_SOURCE_DIR}/patches/gl4es-build-shared.patch
-
-	CONFIGURE_COMMAND ""
-
-	BUILD_COMMAND ${wrapper_command} ndk-build
-	${COMMON_NDK_BUILD_FLAGS}
-
-	INSTALL_COMMAND mkdir -p ${prefix}/lib/
-	COMMAND cp libs/${app_abi}/libGL.so ${prefix}/lib/
-	COMMAND cp -r <SOURCE_DIR>/include ${prefix}/
-)
-
 ExternalProject_Add(mygui
 	DEPENDS freetype2
 
@@ -299,14 +282,14 @@ ExternalProject_Add(mygui
 )
 
 ExternalProject_Add(osg
-	DEPENDS libjpeg-turbo libpng gl4es
+	DEPENDS libjpeg-turbo libpng
 
 	GIT_REPOSITORY https://github.com/xyzz/osg.git
 	GIT_TAG ${OSG_TAG}
 
 	CONFIGURE_COMMAND ${wrapper_command} cmake <SOURCE_DIR>
 	${COMMON_CMAKE_ARGS}
-	-DOPENGL_PROFILE="GL1"
+	-DOPENGL_PROFILE="GLES2"
 	-DDYNAMIC_OPENTHREADS=OFF
 	-DDYNAMIC_OPENSCENEGRAPH=OFF
 	-DBUILD_OSG_PLUGIN_OSG=ON
@@ -318,17 +301,12 @@ ExternalProject_Add(osg
 	-DJPEG_INCLUDE_DIR=${prefix}/include/
 	-DPNG_INCLUDE_DIR=${prefix}/include/
 	-DOSG_CPP_EXCEPTIONS_AVAILABLE=TRUE
-	-DOSG_GL1_AVAILABLE=ON
+	-DOSG_GL1_AVAILABLE=OFF
 	-DOSG_GL2_AVAILABLE=OFF
 	-DOSG_GL3_AVAILABLE=OFF
 	-DOSG_GLES1_AVAILABLE=OFF
-	-DOSG_GLES2_AVAILABLE=OFF
+	-DOSG_GLES2_AVAILABLE=ON
 	-DOSG_GL_LIBRARY_STATIC=OFF
-	-DOSG_GL_DISPLAYLISTS_AVAILABLE=OFF
-	-DOSG_GL_MATRICES_AVAILABLE=ON
-	-DOSG_GL_VERTEX_FUNCS_AVAILABLE=ON
-	-DOSG_GL_VERTEX_ARRAY_FUNCS_AVAILABLE=ON
-	-DOSG_GL_FIXED_FUNCTION_AVAILABLE=ON
 	-DDYNAMIC_OPENTHREADS=OFF
 	-DDYNAMIC_OPENSCENEGRAPH=OFF
 	-DBUILD_OSG_APPLICATIONS=OFF
@@ -365,7 +343,9 @@ ExternalProject_Add(openmw
 	-DBUILD_MYGUI_PLUGIN=0
 	-DOPENAL_INCLUDE_DIR=${prefix}/include/AL/
 	-DBullet_INCLUDE_DIR=${prefix}/include/bullet/
-	-DOPENGL_ES=OFF
+	-DOPENGL_ES1=OFF
+	-DOPENGL_ES2=ON
+	-DOPENGL_ES3=OFF
 	-DOSG_PLUGINS_DIR=${osg_plugins_dir}
 	-DOSG_STATIC=TRUE
 	-DOSGDB_BMP_LIBRARY=${osg_plugins_dir}/libosgdb_bmp.a

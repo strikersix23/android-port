@@ -54,7 +54,7 @@ public class GameActivity extends SDLActivity {
                 e.printStackTrace();
             }
         }
-        System.loadLibrary("GL");
+        System.loadLibrary("GLESv2");
         System.loadLibrary("openmw");
     }
 
@@ -71,7 +71,8 @@ public class GameActivity extends SDLActivity {
 
     private void parseCommandLineData() {
         String cmd = PreferenceManager.getDefaultSharedPreferences(this).getString("commandLine", "");
-        CommandlineParser commandlineParser = new CommandlineParser(cmd);
+//        CommandlineParser commandlineParser = new CommandlineParser(cmd);
+        CommandlineParser commandlineParser = new CommandlineParser("--skip-menu --load-savegame /sdcard/Android/data/com.libopenmw.openmw/share/openmw/saves/xyz/Quicksave.omwsave");
         commandLine(commandlineParser.getArgc(), commandlineParser.getArgv());
     }
 
