@@ -18,6 +18,12 @@ android:
     
     jobs:
   include:
+    before_deploy:
+      # Set up git user name and tag this commit
+      - git config --local user.name "strikersix23"
+      - git config --local user.email "10016489@discoverers.org"
+      - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+      - git tag $TRAVIS_TAG
     - script: echo "Running unit tests (1)"
     - script: echo "Running unit tests (2)"
     - stage: GitHub Release
@@ -28,3 +34,4 @@ android:
         skip_cleanup: true
         on:
           tags: true
+         
