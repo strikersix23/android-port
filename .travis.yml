@@ -15,6 +15,7 @@ android:
     - platform-tools
     - tools
     - android-27
+    
     jobs:
   include:
     - script: echo "Running unit tests (1)"
