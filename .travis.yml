@@ -15,3 +15,15 @@ android:
     - platform-tools
     - tools
     - android-27
+    jobs:
+  include:
+    - script: echo "Running unit tests (1)"
+    - script: echo "Running unit tests (2)"
+    - stage: GitHub Release
+      script: echo "Deploying to GitHub releases ..."
+      deploy:
+        provider: releases
+        api_key: $da3a8920f94ef7a5b8e03334c52dd88305c6acce
+        skip_cleanup: true
+        on:
+          tags: true
